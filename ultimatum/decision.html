@@ -1,0 +1,63 @@
+{{ block title }}
+    シナリオ{{scenarionum}}
+{{ endblock }}
+
+{{ block content }}
+
+    <p>あなたは {{ role }} です．</p>
+
+    {{ if scenario == "ult" }}
+        <p>ultimatum game の説明</p>
+    {{ else }}
+        <p>no-veto-cost game の説明</p>
+    {{ endif }}
+
+    <p>proposerの稼ぎは {{ group.pie_p }} です．</p>
+
+    <p>responderの稼ぎは {{ group.pie_r }} です．</p>
+
+    <p>あなたの組の合計のパイは {{ group.pie_tot }} です．</p>
+
+    {{ for eachfield in form }}
+        <div class="row align-items-center justify-content-center">
+            <div class="col">
+                <p class="text-end">
+                    proposer:
+                    <br>
+                    <span id="proposer">&nbsp;</span>
+                </p>
+            </div>
+            <div class="col-6">
+                <input type="range" class="form-range" id="myslider" name="{{ eachfield.name }}" min="0" max="{{ group.pie_tot }}" value="0">
+            </div>
+            <div class="col">
+                <p class="text-start">
+                    responder:
+                    <br>
+                    <span id="responder">&nbsp;</span>
+                </p>
+            </div>
+        </div>
+    {{ endfor }}
+
+    {{ next_button }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<script>
+    function update_disp() {
+        const el = document.getElementById("myslider");
+        const maxval = parseFloat(el.max);
+        const responder = parseFloat(el.value);
+        const proposer = maxval - responder;
+
+        document.getElementById("proposer").innerText = proposer;
+        document.getElementById("responder").innerText = responder;
+    }
+
+    window.onload = function() {
+        document.getElementById('myslider').addEventListener('input', update_disp);
+    };
+</script>
+{{ endblock }}
