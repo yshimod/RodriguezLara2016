@@ -11,6 +11,10 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = 2
     NUM_ROUNDS = 1
 
+    # 各 id_in_group にラベルをつける．
+    PROPOSER_ROLE = "player A"    # id_in_group: 1
+    RESPONDER_ROLE = "player B"    # id_in_group: 2
+
 
 class Subsession(BaseSubsession):
     pass
@@ -81,8 +85,12 @@ class StartWaitPage(WaitPage):
 
     @staticmethod
     def after_all_players_arrive(group: Group):
-        proposer = group.get_player_by_id(1)
-        responder = group.get_player_by_id(2)
+        """
+        group のメンバーが集まったタイミングで，パイの大きさ（提案額の最大値）を計算する．
+        """
+        # 各役割の player のオブジェクトを取得する．
+        proposer: Player = group.get_player_by_role(C.PROPOSER_ROLE)
+        responder: Player = group.get_player_by_role(C.RESPONDER_ROLE)
 
         group.q_p = proposer.participant.effort_score
         group.q_r = responder.participant.effort_score
@@ -110,7 +118,10 @@ class Proposer1(Page):
 
     @staticmethod
     def is_displayed(player: Player):
-        return player.id_in_group == 1
+        """
+        proposer にのみページを表示．
+        """
+        return player.role == C.PROPOSER_ROLE
 
     @staticmethod
     def get_form_fields(player: Player):
@@ -123,7 +134,7 @@ class Proposer1(Page):
         return dict(
             scenario = flag,
             scenarionum = 1,
-            role = "proposer"
+            role = C.PROPOSER_ROLE    # 役割
         )
 
 
@@ -133,7 +144,10 @@ class Responder1(Page):
 
     @staticmethod
     def is_displayed(player: Player):
-        return player.id_in_group == 2
+        """
+        responder にのみページを表示．
+        """
+        return player.role == C.RESPONDER_ROLE
 
     @staticmethod
     def get_form_fields(player: Player):
@@ -146,7 +160,7 @@ class Responder1(Page):
         return dict(
             scenario = flag,
             scenarionum = 1,
-            role = "responder"
+            role = C.RESPONDER_ROLE
         )
 
 
@@ -160,7 +174,10 @@ class Proposer2(Page):
 
     @staticmethod
     def is_displayed(player: Player):
-        return player.id_in_group == 1
+        """
+        proposer にのみページを表示．
+        """
+        return player.role == C.PROPOSER_ROLE
 
     @staticmethod
     def get_form_fields(player: Player):
@@ -173,7 +190,7 @@ class Proposer2(Page):
         return dict(
             scenario = flag,
             scenarionum = 2,
-            role = "proposer"
+            role = C.PROPOSER_ROLE
         )
 
 
@@ -183,7 +200,10 @@ class Responder2(Page):
 
     @staticmethod
     def is_displayed(player: Player):
-        return player.id_in_group == 2
+        """
+        responder にのみページを表示．
+        """
+        return player.role == C.RESPONDER_ROLE
 
     @staticmethod
     def get_form_fields(player: Player):
@@ -196,7 +216,7 @@ class Responder2(Page):
         return dict(
             scenario = flag,
             scenarionum = 2,
-            role = "responder"
+            role = C.RESPONDER_ROLE
         )
 
 
@@ -206,8 +226,8 @@ class ResultsWaitPage(WaitPage):
         """
         利得を計算する
         """
-        proposer: Player = group.get_player_by_id(1)
-        responder: Player = group.get_player_by_id(2)
+        proposer: Player = group.get_player_by_role(C.PROPOSER_ROLE)
+        responder: Player = group.get_player_by_role(C.RESPONDER_ROLE)
 
         ## ultimatum game
         if group.offer_p_ult >= group.offer_r_ult:

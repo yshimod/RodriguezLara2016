@@ -1,5 +1,5 @@
 {{ block title }}
-    シナリオ{{scenarionum}}
+    シナリオ{{ scenarionum }}
 {{ endblock }}
 
 {{ block content }}
@@ -12,17 +12,23 @@
         <p>no-veto-cost game の説明</p>
     {{ endif }}
 
-    <p>proposerの稼ぎは {{ group.pie_p }} です．</p>
+    <p>{{ C.PROPOSER_ROLE }}の稼ぎは {{ group.pie_p }} です．</p>
 
-    <p>responderの稼ぎは {{ group.pie_r }} です．</p>
+    <p>{{ C.RESPONDER_ROLE }}の稼ぎは {{ group.pie_r }} です．</p>
 
     <p>あなたの組の合計のパイは {{ group.pie_tot }} です．</p>
+
+    {{ if role == C.PROPOSER_ROLE }}
+        <p>{{ C.RESPONDER_ROLE }}への提案額を決定してください．</p>
+    {{ else }}
+        <p>{{ C.PROPOSER_ROLE }}からの提案額で最低限受け入れられる額を決定してください．</p>
+    {{ endif }}
 
     {{ for eachfield in form }}
         <div class="row align-items-center justify-content-center">
             <div class="col">
                 <p class="text-end">
-                    proposer:
+                    {{ C.PROPOSER_ROLE }}:
                     <br>
                     <span id="proposer">&nbsp;</span>
                 </p>
@@ -32,7 +38,7 @@
             </div>
             <div class="col">
                 <p class="text-start">
-                    responder:
+                    {{ C.RESPONDER_ROLE }}:
                     <br>
                     <span id="responder">&nbsp;</span>
                 </p>

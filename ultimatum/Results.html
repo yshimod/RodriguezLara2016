@@ -7,10 +7,10 @@
     {{ for res in results }}
         <div>
             <p>シナリオ{{ forloop.counter }}:</p>
-            <p>proposerの提案は {{ res.offer_p }} です．</p>
-            <p>responderの提案は {{ res.offer_r }} です．</p>
+            <p>{{ C.PROPOSER_ROLE }}の提案は {{ res.offer_p }} です．</p>
+            <p>{{ C.RESPONDER_ROLE }}の提案は {{ res.offer_r }} です．</p>
             <p>
-                proposerの提案は，responderによって
+                {{ C.PROPOSER_ROLE }}の提案は，{{ C.RESPONDER_ROLE }}によって
                 {{ if res.accepted }}
                     受諾されました．
                 {{ else }}
