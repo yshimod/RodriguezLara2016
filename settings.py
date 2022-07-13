@@ -7,7 +7,8 @@ SESSION_CONFIGS = [
             'effort',
             'ultimatum'
         ],
-        num_demo_participants = 2
+        num_demo_participants = 2,
+        ult_is_first = True
     )
 ]
 

@@ -4,22 +4,26 @@
 
 {{ block content }}
 
-    <p>あなたのクイズの正解数は「」です．</p>
-    <p>あなたの1問あたりのポイント数は「」です．</p>
-    <p>結局，あなたの稼ぎは「」です．</p>
+    {{ for res in results }}
+        <div>
+            <p>シナリオ{{ forloop.counter }}:</p>
+            <p>{{ C.PROPOSER_ROLE }}の提案は {{ res.offer_p }} です．</p>
+            <p>{{ C.RESPONDER_ROLE }}の提案は {{ res.offer_r }} です．</p>
+            <p>
+                {{ C.PROPOSER_ROLE }}の提案は，{{ C.RESPONDER_ROLE }}によって
+                {{ if res.accepted }}
+                    受諾されました．
+                {{ else }}
+                    拒否されました．
+                {{ endif }}
+            </p>
+            <p>シナリオ{{ forloop.counter }}でのあなたの利得は {{ res.payoff_tmp }} です．</p>
+        </div>
+    {{ endfor }}
 
-    <p>相手のクイズの正解数は「」です．</p>
-    <p>相手の1問あたりのポイント数は「」です．</p>
-    <p>結局，相手の稼ぎは「」です．</p>
+    <div>
+        <p>報酬支払対象としてシナリオ{{ chosen_scenario }}が選ばれました．</p>
+        <p>あなたの報酬額は{{ player.payoff }}です．</p>
+    </div>
 
-    <p>あなたの組の合計のパイは「」です．</p>
-
-
-    <p>proposerの提案は「」です．</p>
-    <p>responderの提案は「」です．</p>
-
-    <p>結局あなたの利得は「」です．</p>
-
-
-    {{ next_button }}
 {{ endblock }}
